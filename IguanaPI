@@ -128,7 +128,7 @@ def stream():
 @app.route("/trigger_trap", methods=["POST"])
 def trigger_trap():
     try:
-        print("📲 Manual trap trigger request received.")
+        print("Manual trap trigger request received.")
         Thread(target=activate_trap, daemon=True).start()
         return jsonify({"message": "Trap activated successfully"}), 200
     except Exception as e:
@@ -138,7 +138,7 @@ def trigger_trap():
 def reset_trap():
     try:
         global trap_closed
-        print("♻️ Manual trap reset request received.")
+        print("Manual trap reset request received.")
         Thread(target=lambda: step_motor(600, -1), daemon=True).start()
         trap_closed = False
         return jsonify({"message": "Trap reset successfully"}), 200
@@ -167,7 +167,7 @@ def wait_until_sunrise():
         tomorrow = date.today() + timedelta(days=1)
         s = sun(CITY.observer, date=tomorrow, tzinfo=tz)
         seconds = (s["sunrise"] - now).total_seconds()
-    print(f"🌙 Sleeping {seconds/3600:.2f}h until sunrise.")
+    print(f"Sleeping {seconds/3600:.2f}h until sunrise.")
     time.sleep(seconds)
 
 # ==== MOTOR CONTROL ====
@@ -323,7 +323,7 @@ def idle_loop():
         time.sleep(sleep_interval)
 
 # ==== STARTUP ====
-print("📡 System armed (ultrasonic + YOLO mode).")
+print("System armed (ultrasonic + YOLO mode).")
 camera.start()
 Thread(target=yolo_capture_loop, daemon=True).start()
 Thread(target=run_flask, daemon=True).start()
